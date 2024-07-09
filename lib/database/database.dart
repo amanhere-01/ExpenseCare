@@ -17,14 +17,20 @@ class Expenses extends Table{
   TextColumn get description => text()();
   RealColumn get amount => real()();
   DateTimeColumn get date => dateTime()();
+  DateTimeColumn get time => dateTime()();
 }
 
 @DriftDatabase(tables: [Expenses])
-class AppDatabase extends _$AppDatabase{
+class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
+
+  Future<List<Expense>> getAllExpenses() async => await select(expenses).get();
+  Future insertExpense(ExpensesCompanion entity) async => await into(expenses).insert(entity);
+  Future updateExpense(ExpensesCompanion entity) async => await update(expenses).replace(entity);
+  Future deleteExpense(ExpensesCompanion entity) async => await delete(expenses).delete(entity);
 
 }
 

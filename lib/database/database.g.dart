@@ -45,9 +45,14 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
   late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
       'date', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _timeMeta = const VerificationMeta('time');
+  @override
+  late final GeneratedColumn<DateTime> time = GeneratedColumn<DateTime>(
+      'time', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, category, categoryImageUrl, description, amount, date];
+      [id, category, categoryImageUrl, description, amount, date, time];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -95,6 +100,12 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
+    if (data.containsKey('time')) {
+      context.handle(
+          _timeMeta, time.isAcceptableOrUnknown(data['time']!, _timeMeta));
+    } else if (isInserting) {
+      context.missing(_timeMeta);
+    }
     return context;
   }
 
@@ -116,6 +127,8 @@ class $ExpensesTable extends Expenses with TableInfo<$ExpensesTable, Expense> {
           .read(DriftSqlType.double, data['${effectivePrefix}amount'])!,
       date: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      time: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}time'])!,
     );
   }
 
@@ -132,13 +145,15 @@ class Expense extends DataClass implements Insertable<Expense> {
   final String description;
   final double amount;
   final DateTime date;
+  final DateTime time;
   const Expense(
       {required this.id,
       required this.category,
       required this.categoryImageUrl,
       required this.description,
       required this.amount,
-      required this.date});
+      required this.date,
+      required this.time});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -148,6 +163,7 @@ class Expense extends DataClass implements Insertable<Expense> {
     map['description'] = Variable<String>(description);
     map['amount'] = Variable<double>(amount);
     map['date'] = Variable<DateTime>(date);
+    map['time'] = Variable<DateTime>(time);
     return map;
   }
 
@@ -159,6 +175,7 @@ class Expense extends DataClass implements Insertable<Expense> {
       description: Value(description),
       amount: Value(amount),
       date: Value(date),
+      time: Value(time),
     );
   }
 
@@ -172,6 +189,7 @@ class Expense extends DataClass implements Insertable<Expense> {
       description: serializer.fromJson<String>(json['description']),
       amount: serializer.fromJson<double>(json['amount']),
       date: serializer.fromJson<DateTime>(json['date']),
+      time: serializer.fromJson<DateTime>(json['time']),
     );
   }
   @override
@@ -184,6 +202,7 @@ class Expense extends DataClass implements Insertable<Expense> {
       'description': serializer.toJson<String>(description),
       'amount': serializer.toJson<double>(amount),
       'date': serializer.toJson<DateTime>(date),
+      'time': serializer.toJson<DateTime>(time),
     };
   }
 
@@ -193,7 +212,8 @@ class Expense extends DataClass implements Insertable<Expense> {
           String? categoryImageUrl,
           String? description,
           double? amount,
-          DateTime? date}) =>
+          DateTime? date,
+          DateTime? time}) =>
       Expense(
         id: id ?? this.id,
         category: category ?? this.category,
@@ -201,6 +221,7 @@ class Expense extends DataClass implements Insertable<Expense> {
         description: description ?? this.description,
         amount: amount ?? this.amount,
         date: date ?? this.date,
+        time: time ?? this.time,
       );
   @override
   String toString() {
@@ -210,14 +231,15 @@ class Expense extends DataClass implements Insertable<Expense> {
           ..write('categoryImageUrl: $categoryImageUrl, ')
           ..write('description: $description, ')
           ..write('amount: $amount, ')
-          ..write('date: $date')
+          ..write('date: $date, ')
+          ..write('time: $time')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, category, categoryImageUrl, description, amount, date);
+  int get hashCode => Object.hash(
+      id, category, categoryImageUrl, description, amount, date, time);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -227,7 +249,8 @@ class Expense extends DataClass implements Insertable<Expense> {
           other.categoryImageUrl == this.categoryImageUrl &&
           other.description == this.description &&
           other.amount == this.amount &&
-          other.date == this.date);
+          other.date == this.date &&
+          other.time == this.time);
 }
 
 class ExpensesCompanion extends UpdateCompanion<Expense> {
@@ -237,6 +260,7 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
   final Value<String> description;
   final Value<double> amount;
   final Value<DateTime> date;
+  final Value<DateTime> time;
   const ExpensesCompanion({
     this.id = const Value.absent(),
     this.category = const Value.absent(),
@@ -244,6 +268,7 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
     this.description = const Value.absent(),
     this.amount = const Value.absent(),
     this.date = const Value.absent(),
+    this.time = const Value.absent(),
   });
   ExpensesCompanion.insert({
     this.id = const Value.absent(),
@@ -252,11 +277,13 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
     required String description,
     required double amount,
     required DateTime date,
+    required DateTime time,
   })  : category = Value(category),
         categoryImageUrl = Value(categoryImageUrl),
         description = Value(description),
         amount = Value(amount),
-        date = Value(date);
+        date = Value(date),
+        time = Value(time);
   static Insertable<Expense> custom({
     Expression<int>? id,
     Expression<String>? category,
@@ -264,6 +291,7 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
     Expression<String>? description,
     Expression<double>? amount,
     Expression<DateTime>? date,
+    Expression<DateTime>? time,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -272,6 +300,7 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
       if (description != null) 'description': description,
       if (amount != null) 'amount': amount,
       if (date != null) 'date': date,
+      if (time != null) 'time': time,
     });
   }
 
@@ -281,7 +310,8 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
       Value<String>? categoryImageUrl,
       Value<String>? description,
       Value<double>? amount,
-      Value<DateTime>? date}) {
+      Value<DateTime>? date,
+      Value<DateTime>? time}) {
     return ExpensesCompanion(
       id: id ?? this.id,
       category: category ?? this.category,
@@ -289,6 +319,7 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
       description: description ?? this.description,
       amount: amount ?? this.amount,
       date: date ?? this.date,
+      time: time ?? this.time,
     );
   }
 
@@ -313,6 +344,9 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
     if (date.present) {
       map['date'] = Variable<DateTime>(date.value);
     }
+    if (time.present) {
+      map['time'] = Variable<DateTime>(time.value);
+    }
     return map;
   }
 
@@ -324,7 +358,8 @@ class ExpensesCompanion extends UpdateCompanion<Expense> {
           ..write('categoryImageUrl: $categoryImageUrl, ')
           ..write('description: $description, ')
           ..write('amount: $amount, ')
-          ..write('date: $date')
+          ..write('date: $date, ')
+          ..write('time: $time')
           ..write(')'))
         .toString();
   }
@@ -348,6 +383,7 @@ typedef $$ExpensesTableInsertCompanionBuilder = ExpensesCompanion Function({
   required String description,
   required double amount,
   required DateTime date,
+  required DateTime time,
 });
 typedef $$ExpensesTableUpdateCompanionBuilder = ExpensesCompanion Function({
   Value<int> id,
@@ -356,6 +392,7 @@ typedef $$ExpensesTableUpdateCompanionBuilder = ExpensesCompanion Function({
   Value<String> description,
   Value<double> amount,
   Value<DateTime> date,
+  Value<DateTime> time,
 });
 
 class $$ExpensesTableTableManager extends RootTableManager<
@@ -384,6 +421,7 @@ class $$ExpensesTableTableManager extends RootTableManager<
             Value<String> description = const Value.absent(),
             Value<double> amount = const Value.absent(),
             Value<DateTime> date = const Value.absent(),
+            Value<DateTime> time = const Value.absent(),
           }) =>
               ExpensesCompanion(
             id: id,
@@ -392,6 +430,7 @@ class $$ExpensesTableTableManager extends RootTableManager<
             description: description,
             amount: amount,
             date: date,
+            time: time,
           ),
           getInsertCompanionBuilder: ({
             Value<int> id = const Value.absent(),
@@ -400,6 +439,7 @@ class $$ExpensesTableTableManager extends RootTableManager<
             required String description,
             required double amount,
             required DateTime date,
+            required DateTime time,
           }) =>
               ExpensesCompanion.insert(
             id: id,
@@ -408,6 +448,7 @@ class $$ExpensesTableTableManager extends RootTableManager<
             description: description,
             amount: amount,
             date: date,
+            time: time,
           ),
         ));
 }
@@ -456,6 +497,11 @@ class $$ExpensesTableFilterComposer
       column: $state.table.date,
       builder: (column, joinBuilders) =>
           ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get time => $state.composableBuilder(
+      column: $state.table.time,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
 class $$ExpensesTableOrderingComposer
@@ -488,6 +534,11 @@ class $$ExpensesTableOrderingComposer
 
   ColumnOrderings<DateTime> get date => $state.composableBuilder(
       column: $state.table.date,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get time => $state.composableBuilder(
+      column: $state.table.time,
       builder: (column, joinBuilders) =>
           ColumnOrderings(column, joinBuilders: joinBuilders));
 }
