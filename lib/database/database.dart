@@ -30,7 +30,8 @@ class AppDatabase extends _$AppDatabase {
   Future<List<Expense>> getAllExpenses() async => await select(expenses).get();
   Future insertExpense(ExpensesCompanion entity) async => await into(expenses).insert(entity);
   Future updateExpense(ExpensesCompanion entity) async => await update(expenses).replace(entity);
-  Future deleteExpense(ExpensesCompanion entity) async => await delete(expenses).delete(entity);
+  Future deleteExpense(Expense entity) async => await delete(expenses).delete(entity);
+
 
 }
 
