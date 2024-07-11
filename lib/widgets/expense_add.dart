@@ -116,7 +116,7 @@ class _AddExpenseState extends State<AddExpense> {
         borderSide: BorderSide(
           color: TColor.blue2
         ),
-        borderRadius: BorderRadius.all(Radius.circular(10))
+        borderRadius: const BorderRadius.all(Radius.circular(10))
     );
 
     return Container(
