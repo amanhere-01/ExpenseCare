@@ -2,10 +2,8 @@ import 'package:expense_care/color_extension.dart';
 import 'package:expense_care/providers/expense_provider.dart';
 import 'package:expense_care/widgets/expense_dialogBox.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../database/database.dart';
 
 class RecentTransactions extends StatefulWidget {
   const RecentTransactions({super.key});

@@ -41,7 +41,7 @@ class _EditExpenseState extends State<EditExpense> {
                 child: Text('Select Category',
                   style: TextStyle(
                       fontSize: 25,
-                      color: TColor.grey1,
+                      color: TColor.white5,
                       fontWeight: FontWeight.bold
                   ),
                 ),
@@ -130,9 +130,9 @@ class _EditExpenseState extends State<EditExpense> {
 
     return Container(
       padding: const EdgeInsets.all(30),
-      decoration:  const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      decoration: BoxDecoration(
+        color: TColor.black4,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -142,16 +142,15 @@ class _EditExpenseState extends State<EditExpense> {
               child: Text('Click to choose category',
                 style: TextStyle(
                     fontSize: 16,
-                    color: TColor.secondaryText
+                    color: TColor.white5
                 ),
               ),
             ),
             GestureDetector(
               onTap: (){chooseCategoryBottomSheet(context);} ,
               child: Card(
-                  // color: TColor.white2,
-                color: TColor.lightGreen,
-                  elevation: 5,
+                color: TColor.black2,
+                  elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)
                   ),
@@ -174,7 +173,7 @@ class _EditExpenseState extends State<EditExpense> {
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
-                            color: TColor.text
+                            color: TColor.white3
                         ),
                       ),
                       const SizedBox(height: 10,),
@@ -185,15 +184,18 @@ class _EditExpenseState extends State<EditExpense> {
             const SizedBox(height: 30),
             TextField(
               controller: descriptionController,
-              cursorColor: TColor.grey1,
+              cursorColor: TColor.white2,
               minLines: 1,
               maxLines: 2,
+              style: TextStyle(
+                color: TColor.white3
+              ),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: TColor.lightGreen,
-                label: const Text('Description'),
+                fillColor: TColor.black2,
+                label:  Text('Description',style: TextStyle(color: TColor.white7),),
                 floatingLabelStyle: TextStyle(
-                    color: TColor.grey1
+                    color: TColor.white7
                 ),
                 focusedBorder:borderDesign,
                 enabledBorder: borderDesign,
@@ -202,15 +204,18 @@ class _EditExpenseState extends State<EditExpense> {
             const SizedBox(height: 30.0),
             TextField(
               controller: amountController,
-              cursorColor: TColor.grey1,
+              cursorColor: TColor.white4,
               keyboardType: TextInputType.number,
+              style: TextStyle(
+                color: TColor.white3
+              ),
               decoration:  InputDecoration(
-                label: const Text('Amount'),
+                label:  Text('Amount', style: TextStyle(color: TColor.white7),),
                 floatingLabelStyle: TextStyle(
-                    color: TColor.grey1
+                    color: TColor.white7
                 ),
                 filled: true,
-                fillColor: TColor.lightGreen,
+                fillColor:TColor.black2,
                 prefixIcon: const Icon(Icons.currency_rupee),
                 prefixIconColor: Colors.green,
                 focusedBorder:borderDesign,
@@ -222,8 +227,10 @@ class _EditExpenseState extends State<EditExpense> {
                 icon: const Icon(Icons.data_saver_on_rounded),
                 onPressed: (){saveChanges(context);},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: TColor.lightGreen,
-                  foregroundColor: Colors.black,
+                  elevation: 10,
+                  shadowColor: Colors.greenAccent,
+                  backgroundColor: TColor.black1,
+                  foregroundColor: TColor.white2,
                   minimumSize: const Size(double.infinity, 50),
                   textStyle: const TextStyle(
                     fontSize: 20,

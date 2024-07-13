@@ -109,7 +109,27 @@ class ExpenseDialogBox extends StatelessWidget {
                     color: TColor.red1,
                   ),
                   onPressed: (){
-                    Provider.of<ExpenseProvider>(context,listen: false).deleteExpense(expense);
+                    Provider.of<ExpenseProvider>(context,listen: false).deleteExpense(expense).then((_){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: const Duration(seconds: 3),
+                          margin: const EdgeInsets.all(40),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          content: Center(
+                            child: Text(
+                              'Deleted!',
+                              style: TextStyle(
+                                color: TColor.black1,
+                              ),
+                            ),
+                          ),
+                          backgroundColor: TColor.peach2,
+                        ),
+                      );
+                    });
                     Navigator.pop(context);
                   },
                   label: Text(

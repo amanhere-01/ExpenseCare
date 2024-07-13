@@ -1,5 +1,5 @@
+import 'package:expense_care/pages/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../categories_list.dart';
 import '../color_extension.dart';
@@ -25,6 +25,7 @@ class _AddExpenseState extends State<AddExpense> {
   void chooseCategoryBottomSheet(){
     showModalBottomSheet(
         context: context,
+        backgroundColor: TColor.black3,
         builder: (context){
           return Column(
             children: [
@@ -33,7 +34,7 @@ class _AddExpenseState extends State<AddExpense> {
                 child: Text('Select Category',
                   style: TextStyle(
                     fontSize: 25,
-                    color: TColor.grey1,
+                    color: TColor.white3,
                     fontWeight: FontWeight.bold
                   ),
                 ),
@@ -57,11 +58,11 @@ class _AddExpenseState extends State<AddExpense> {
                               Navigator.pop(context);
                             },
                             child: Container(
-                              width: 70,
-                              height: 70,
+                              width: 60,
+                              height: 60,
                               decoration: BoxDecoration(
-                                color: const Color.fromRGBO(211, 243, 184, 1),
                                 borderRadius: BorderRadius.circular(15),
+                                color: TColor.black5
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -73,6 +74,9 @@ class _AddExpenseState extends State<AddExpense> {
                           ),
                           Text(
                             categories['title'].toString(),
+                            style: TextStyle(
+                              color: TColor.white1
+                            ),
                           )
                         ],
                       );
@@ -90,7 +94,7 @@ class _AddExpenseState extends State<AddExpense> {
     final amount = double.tryParse(amountController.text);
     final dateTime = DateTime.now();
 
-    if (description.isNotEmpty && amount != null) {
+    if (description.isNotEmpty && amount!=null && amount > 0.0) {
 
       final expense = ExpensesCompanion(
         category :  drift.Value(choosedCategoryName),
@@ -103,7 +107,29 @@ class _AddExpenseState extends State<AddExpense> {
 
       Provider.of<ExpenseProvider>(context, listen: false).addExpense( expense ).then(
               (_){
-                Navigator.pop(context);
+                descriptionController.clear();
+                amountController.clear();
+                setState(() {
+                  choosedCategoryName = 'Food';
+                  choosedCategoryImage = 'assets/images/food.png';
+                });
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(
+                //     duration: const Duration(seconds: 10),
+                //     margin: const EdgeInsets.all(20),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(30)
+                //     ),
+                //     behavior: SnackBarBehavior.floating,
+                //     content: Text(
+                //       'Expense added successfully!',
+                //       style: TextStyle(
+                //         color: TColor.black1
+                //       ),
+                //     ),
+                //     backgroundColor: TColor.blue1,
+                //   ),
+                // );
               }
             );
     }
@@ -114,16 +140,17 @@ class _AddExpenseState extends State<AddExpense> {
 
       final borderDesign= OutlineInputBorder(
         borderSide: BorderSide(
-          color: TColor.blue2
+          color: TColor.cyan3,
+          width: 1.5
         ),
         borderRadius: const BorderRadius.all(Radius.circular(10))
     );
 
     return Container(
       padding: const EdgeInsets.all(30),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      decoration:  BoxDecoration(
+        color: TColor.black4,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -133,19 +160,19 @@ class _AddExpenseState extends State<AddExpense> {
               child: Text('Click to choose category',
                 style: TextStyle(
                     fontSize: 16,
-                    color: TColor.secondaryText
+                    color: TColor.white5
                 ),
               ),
             ),
             GestureDetector(
               onTap: chooseCategoryBottomSheet ,
               child: Card(
-                  color: TColor.blue,
+                  color: TColor.black2,
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)
                   ),
-                  shadowColor: Colors.blue,
+                  shadowColor: TColor.cyan3,
                   child: Column(
                     children: [
                       const SizedBox(height: 10,),
@@ -164,7 +191,7 @@ class _AddExpenseState extends State<AddExpense> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
-                          color: TColor.text
+                          color: TColor.white3
                         ),
                       ),
                       const SizedBox(height: 10,),
@@ -175,15 +202,18 @@ class _AddExpenseState extends State<AddExpense> {
             const SizedBox(height: 30),
             TextField(
               controller: descriptionController,
-              cursorColor: TColor.grey1,
+              cursorColor: TColor.white2,
               minLines: 1,
               maxLines: 2,
+              style: TextStyle(
+                  color: TColor.white3
+              ),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: TColor.blue,
-                label: const Text('Description'),
+                fillColor: TColor.black2,
+                label:  Text('Description',style: TextStyle(color: TColor.white7),),
                 floatingLabelStyle: TextStyle(
-                    color: TColor.grey1
+                    color: TColor.white7
                 ),
                 focusedBorder:borderDesign,
                 enabledBorder: borderDesign,
@@ -192,15 +222,18 @@ class _AddExpenseState extends State<AddExpense> {
             const SizedBox(height: 30.0),
             TextField(
               controller: amountController,
-              cursorColor: TColor.grey1,
+              cursorColor: TColor.white4,
               keyboardType: TextInputType.number,
+              style: TextStyle(
+                  color: TColor.white3
+              ),
               decoration:  InputDecoration(
-                label: const Text('Amount'),
+                label:  Text('Amount', style: TextStyle(color: TColor.white7),),
                 floatingLabelStyle: TextStyle(
-                    color: TColor.grey1
+                    color: TColor.white7
                 ),
                 filled: true,
-                fillColor:TColor.blue,
+                fillColor:TColor.black2,
                 prefixIcon: const Icon(Icons.currency_rupee),
                 prefixIconColor: Colors.green,
                 focusedBorder:borderDesign,
@@ -212,8 +245,10 @@ class _AddExpenseState extends State<AddExpense> {
               icon: const Icon(Icons.add_circle_outline),
               onPressed: addExpense,
               style: ElevatedButton.styleFrom(
-                backgroundColor: TColor.blue,
-                foregroundColor: Colors.black,
+                elevation: 5,
+                shadowColor: TColor.cyan3,
+                backgroundColor: TColor.black1,
+                foregroundColor: TColor.white2,
                 minimumSize: const Size(double.infinity, 50),
                 textStyle: const TextStyle(
                   fontSize: 20,
