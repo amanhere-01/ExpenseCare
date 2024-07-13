@@ -10,9 +10,9 @@ class NewExpense extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: TColor.blue2,
+        backgroundColor: TColor.blue4,
       ),
-      backgroundColor: TColor.blue2,
+      backgroundColor: TColor.blue4,
       body: Column(
         children: [
           Align(
