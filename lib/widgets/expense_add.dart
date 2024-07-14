@@ -25,7 +25,7 @@ class _AddExpenseState extends State<AddExpense> {
   void chooseCategoryBottomSheet(){
     showModalBottomSheet(
         context: context,
-        backgroundColor: TColor.black3,
+        backgroundColor: TColor.black5,
         builder: (context){
           return Column(
             children: [
@@ -48,7 +48,6 @@ class _AddExpenseState extends State<AddExpense> {
                       final image= categories['imageUrl'];
                       return Column(
                         children: [
-                          // Text('data')
                           GestureDetector(
                             onTap: (){
                               setState(() {
@@ -62,7 +61,7 @@ class _AddExpenseState extends State<AddExpense> {
                               height: 60,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
-                                color: TColor.black5
+                                color: TColor.black1
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -109,27 +108,33 @@ class _AddExpenseState extends State<AddExpense> {
               (_){
                 descriptionController.clear();
                 amountController.clear();
+
                 setState(() {
                   choosedCategoryName = 'Food';
                   choosedCategoryImage = 'assets/images/food.png';
                 });
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   SnackBar(
-                //     duration: const Duration(seconds: 10),
-                //     margin: const EdgeInsets.all(20),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(30)
-                //     ),
-                //     behavior: SnackBarBehavior.floating,
-                //     content: Text(
-                //       'Expense added successfully!',
-                //       style: TextStyle(
-                //         color: TColor.black1
-                //       ),
-                //     ),
-                //     backgroundColor: TColor.blue1,
-                //   ),
-                // );
+
+                FocusScope.of(context).unfocus();
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(seconds: 1),
+                    margin: const EdgeInsets.symmetric(horizontal: 40,vertical: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    content: Center(
+                      child: Text(
+                        'Added Successfully!',
+                        style: TextStyle(
+                          color: TColor.black1,
+                        ),
+                      ),
+                    ),
+                    backgroundColor: TColor.black8,
+                  ),
+                );
               }
             );
     }

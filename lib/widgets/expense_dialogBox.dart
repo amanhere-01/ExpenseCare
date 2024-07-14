@@ -112,8 +112,8 @@ class ExpenseDialogBox extends StatelessWidget {
                     Provider.of<ExpenseProvider>(context,listen: false).deleteExpense(expense).then((_){
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          duration: const Duration(seconds: 3),
-                          margin: const EdgeInsets.all(40),
+                          duration: const Duration(seconds: 1),
+                          margin: const EdgeInsets.symmetric(horizontal: 40,vertical: 20),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)
                           ),
@@ -126,7 +126,7 @@ class ExpenseDialogBox extends StatelessWidget {
                               ),
                             ),
                           ),
-                          backgroundColor: TColor.peach2,
+                          backgroundColor: TColor.black8,
                         ),
                       );
                     });

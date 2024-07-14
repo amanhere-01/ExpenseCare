@@ -32,64 +32,67 @@ class _EditExpenseState extends State<EditExpense> {
 
   void chooseCategoryBottomSheet(BuildContext context){
     showModalBottomSheet(
-        context: context,
-        builder: (context){
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text('Select Category',
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: TColor.white5,
-                      fontWeight: FontWeight.bold
-                  ),
+      context: context,
+      backgroundColor: TColor.black5,
+      builder: (context){
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text('Select Category',
+                style: TextStyle(
+                    fontSize: 25,
+                    color: TColor.white3,
+                    fontWeight: FontWeight.bold
                 ),
               ),
-              Expanded(
-                child: GridView.builder(
-                    itemCount: categoriesType.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3) ,
-                    itemBuilder: (context,index){
-                      final categories= categoriesType[index];
-                      final image= categories['imageUrl'];
-                      return Column(
-                        children: [
-                          // Text('data')
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                choosedCategoryName= categories['title'].toString();
-                                choosedCategoryImage= image;
-                              });
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: const Color.fromRGBO(211, 243, 184, 1),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image(
-                                  image: AssetImage(image as String),
-                                ),
-                              ),
+            ),
+            Expanded(
+              child: GridView.builder(
+                itemCount: categoriesType.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3) ,
+                itemBuilder: (context,index){
+                  final categories= categoriesType[index];
+                  final image= categories['imageUrl'];
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            choosedCategoryName= categories['title'].toString();
+                            choosedCategoryImage= image;
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: TColor.black1
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image(
+                              image: AssetImage(image as String),
                             ),
                           ),
-                          Text(
-                            categories['title'].toString(),
-                          )
-                        ],
-                      );
-                    }
-                ),
-              )
-            ],
-          );
-        }
+                        ),
+                      ),
+                      Text(
+                        categories['title'].toString(),
+                        style: TextStyle(
+                            color: TColor.white1
+                        ),
+                      )
+                    ],
+                  );
+                }
+              ),
+            )
+          ],
+        );
+      }
     );
   }
 
@@ -112,7 +115,27 @@ class _EditExpenseState extends State<EditExpense> {
 
       Provider.of<ExpenseProvider>(context, listen: false).updateExpense( expense ).then(
               (_){
-            Navigator.pop(context);
+                FocusScope.of(context).unfocus();
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(seconds: 1),
+                    margin: const EdgeInsets.symmetric(horizontal: 40,vertical: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    content: Center(
+                      child: Text(
+                        'Edited Successfully!',
+                        style: TextStyle(
+                          color: TColor.black1,
+                        ),
+                      ),
+                    ),
+                    backgroundColor: TColor.black8,
+                  ),
+                );
           }
       );
     }
