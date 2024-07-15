@@ -2,7 +2,6 @@ import 'package:expense_care/database/database.dart';
 import 'package:expense_care/widgets/edit_expense.dart';
 import 'package:flutter/material.dart';
 
-import '../color_extension.dart';
 
 class EditExpensePage extends StatelessWidget {
   final Expense expense;

@@ -1,9 +1,11 @@
-import 'package:expense_care/color_extension.dart';
+import 'package:expense_care/data/color_list.dart';
 import 'package:expense_care/providers/expense_provider.dart';
 import 'package:expense_care/widgets/expense_pie_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../data/month_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,21 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Map<String, dynamic>> monthList = [
-    {'name': 'January', 'number': 1},
-    {'name': 'February', 'number': 2},
-    {'name': 'March', 'number': 3},
-    {'name': 'April', 'number': 4},
-    {'name': 'May', 'number': 5},
-    {'name': 'June', 'number': 6},
-    {'name': 'July', 'number': 7},
-    {'name': 'August', 'number': 8},
-    {'name': 'September', 'number': 9},
-    {'name': 'October', 'number': 10},
-    {'name': 'November', 'number': 11},
-    {'name': 'December', 'number': 12},
-  ];
-
   late String selectedMonth;
   late int selectedMonthNumber;
 
@@ -36,6 +23,12 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     selectedMonth= DateFormat.MMMM().format(DateTime.now());
     selectedMonthNumber= DateTime.now().month;
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.light,
+        )
+    );
   }
 
 

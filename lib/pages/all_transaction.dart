@@ -1,11 +1,9 @@
-
 import 'package:expense_care/pages/edit_expense_page.dart';
 import 'package:expense_care/providers/expense_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../color_extension.dart';
+import '../data/color_list.dart';
 import '../widgets/expense_dialogBox.dart';
 
 class AllTransaction extends StatelessWidget{
@@ -32,6 +30,7 @@ class AllTransaction extends StatelessWidget{
                 itemBuilder: (context,index){
                   final expense= expenseList[expenseList.length -index-1];
                   final time= DateFormat('HH:mm').format(expense.time);
+                  final date= DateFormat('dd/MM/yyyy').format(expense.date);
                   return Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -58,8 +57,8 @@ class AllTransaction extends StatelessWidget{
                             borderRadius: BorderRadius.circular(10)
                           ),
                           color: TColor.black1,
-                          elevation: 20,
-                          shadowColor:TColor.primary10,
+                          elevation: 5,
+                          shadowColor:const Color(0xffAD7BFF),
                           items: [
                              const PopupMenuItem(
                               value: 'edit',
@@ -144,7 +143,7 @@ class AllTransaction extends StatelessWidget{
                             ),
                             const Spacer(),
                             Text(
-                              time,
+                              date,
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,

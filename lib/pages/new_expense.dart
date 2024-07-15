@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../color_extension.dart';
+import '../data/color_list.dart';
 import '../widgets/expense_add.dart';
 
 class NewExpense extends StatelessWidget {
