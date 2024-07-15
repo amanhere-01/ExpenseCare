@@ -31,21 +31,10 @@ class ExpenseProvider extends ChangeNotifier{
     await _loadExpenses();
   }
 
-  Future<double> totalExpenses() async{
-    return await _database.totalExpenses();
-  }
-
-  Future<double> todayExpenses() async{
-    return await _database.todayExpenses();
-  }
-
-  Future<double> totalMonthExpenses() async{
-    return await _database.totalMonthExpenses();
-  }
-
   Future<double> monthExpenses(int monthNumber) async{
     return await _database.monthExpenses(monthNumber);
   }
+
   Future<double> monthlyCategoryExpenses(int monthNumber, String category) async{
     return await _database.monthlyCategoryExpenses(monthNumber,category);
   }
