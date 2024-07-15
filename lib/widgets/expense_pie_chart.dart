@@ -1,9 +1,9 @@
-import 'package:expense_care/categories_list.dart';
+import 'package:expense_care/data/categories_list.dart';
 import 'package:expense_care/providers/expense_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../color_extension.dart';
+import '../data/color_list.dart';
 
 class ExpensePieChart extends StatefulWidget {
   final int monthNumber;
@@ -56,20 +56,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
                                 final value = PieChartSectionData(
                                   color: Color(data['color'] as int),
                                   value: snapshot.data[index],
-                                  // title: data['title'] as String ,
                                   showTitle: false,
-                                  // titleStyle: TextStyle(
-                                  //   fontSize: 16,
-                                  //   color: TColor.white1
-                                  // ),
-                                  // badgeWidget: SizedBox(
-                                  //   width: 30,
-                                  //   height: 30,
-                                  //   child: Image(
-                                  //     image: AssetImage(data['imageUrl'] as String,),
-                                  //   ),
-                                  // ),
-                                  // badgePositionPercentageOffset: 0.5
                                 );
                                 return MapEntry(index, value);
                               }).values.toList(),

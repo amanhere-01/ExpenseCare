@@ -1,8 +1,7 @@
-import 'package:expense_care/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../categories_list.dart';
-import '../color_extension.dart';
+import '../data/categories_list.dart';
+import '../data/color_list.dart';
 import '../database/database.dart';
 import '../providers/expense_provider.dart';
 import 'package:drift/drift.dart' as drift;

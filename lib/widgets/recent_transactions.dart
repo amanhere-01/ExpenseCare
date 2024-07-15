@@ -1,4 +1,4 @@
-import 'package:expense_care/color_extension.dart';
+import 'package:expense_care/data/color_list.dart';
 import 'package:expense_care/providers/expense_provider.dart';
 import 'package:expense_care/widgets/expense_dialogBox.dart';
 import 'package:flutter/material.dart';

@@ -1,9 +1,6 @@
 import 'package:expense_care/pages/home_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-
-import '../color_extension.dart';
+import '../data/color_list.dart';
 import '../pages/all_transaction.dart';
 import '../pages/new_expense.dart';
 
@@ -17,6 +14,12 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int selectedIndex=0;
   List pages= const[HomePage(), NewExpense(), AllTransaction()];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {

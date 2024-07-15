@@ -2,11 +2,9 @@ import 'package:expense_care/pages/edit_expense_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../color_extension.dart';
+import '../data/color_list.dart';
 import '../database/database.dart';
 import '../providers/expense_provider.dart';
-import 'edit_expense.dart';
 
 
 class ExpenseDialogBox extends StatelessWidget {
